@@ -8,11 +8,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ManageTasksTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function user_can_create_a_task()
     {
         // User buka halaman Daftar Task
-        $this->visit('/task');
+        $this->visit('/tasks');
 
         // Isi form `name` dan `description` kemudian submit
         $this->submitForm('Create Task', [
@@ -20,19 +22,21 @@ class ManageTasksTest extends TestCase
             'description' => 'This is my first task on my new job.',
         ]);
 
+        // dump(\DB::table('tasks')->get());
+
         // Lihat Record tersimpan ke database
         $this->seeInDatabase('tasks', [
             'name' => 'My First Task',
-            'description' => 'This is my first task on my new job',
+            'description' => 'This is my first task on my new job.',
             'is_done' => 0,
         ]);
 
         // Redirect ke halaman Daftar Task
-        $this->seePageIs('/task');
+        $this->seePageIs('/tasks');
 
         // Tampil hasil task yang telah diinput
         $this->see('My First Task');
-        $this->see('This is my first task on my new job');
+        $this->see('This is my first task on my new job.');
     }
 
     /** @test */
