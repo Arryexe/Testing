@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Task;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -56,7 +57,36 @@ class ManageTasksTest extends TestCase
     /** @test */
     public function user_can_browse_tasks_index_page()
     {
-        $this->assertTrue(true);
+        // Generate 3 record task pada table `tasks`.
+        $tasks = factory(Task::class, 3)->create();
+        
+        // User membuka halaman Daftar Task.
+        $this->visit('/tasks');
+
+        // User melihat ketiga task tampil pada halaman.
+        $this->see($tasks[0]->name);
+        $this->see($tasks[1]->name);
+        $this->see($tasks[2]->name);
+
+        // User melihat link untuk edit task pada masing-masing item task.
+
+        // <a href="/tasks?action=edit&id=1" id="edit_task_1">edit</a>
+        $this->seeElement('a', [
+            'id' => 'edit_task_'.$tasks[0]->id,
+            'href' => url('tasks?action=edit&id='.$tasks[0]->id)
+        ]);
+
+        // <a href="/tasks?action=edit&id=2" id="edit_task_2">edit</a>
+        $this->seeElement('a', [
+            'id' => 'edit_task_'.$tasks[1]->id,
+            'href' => url('tasks?action=edit&id='.$tasks[1]->id)
+        ]);
+
+        // <a href="/tasks?action=edit&id=3" id="edit_task_3">edit</a>
+        $this->seeElement('a', [
+            'id' => 'edit_task_'.$tasks[2]->id,
+            'href' => url('tasks?action=edit&id='.$tasks[2]->id)
+        ]);
     }
 
     /** @test */
