@@ -40,6 +40,20 @@ class ManageTasksTest extends TestCase
     }
 
     /** @test */
+    public function task_entry_must_pass_validation()
+    {
+        // Submit Form untuk membuat Task Baru 
+        // Dengan Field name discription kosong
+        $this->post('/tasks', [
+            'name' => '',
+            'description' => '',
+        ]);
+
+        // Cek pada Session apakah ada error untuk field nama dan description
+        $this->assertSessionHasErrors(['name', 'description']);
+    }
+
+    /** @test */
     public function user_can_browse_tasks_index_page()
     {
         $this->assertTrue(true);
