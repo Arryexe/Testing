@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('tasks', 'TasksController@index');
 Route::post('tasks', 'TasksController@store');
-Auth::routes();
+Route::patch('tasks/{task}', 'TasksController@update');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();

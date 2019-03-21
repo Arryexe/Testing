@@ -18,8 +18,6 @@
 		        </ul>
 		    </div>
 		    <div class="col-md-4">
-		        <h2>New Task</h2>
-
 		        @if (count($errors) > 0)
 		            <div class="alert alert-danger">
 		                <ul class="list-unstyled">
@@ -30,8 +28,25 @@
 		            </div>
 		        @endif
 
+		        @if (! is_null($editableTask) && request('action') == 'edit')
+		        	<h2>Edit Task</h2>
+		    		<form id="edit_task_1" action="{{ url('tasks/1') }}" method="post">
+						{{ csrf_field() }} {{ method_field('PATCH') }}
+						<div class="form-group">
+							<label for="name" class="control-label">Name</label>
+							<input type="text" name="name" id="name" class="form-control">
+						</div>
 
-		        <form action="{{ url('tasks') }}" method="post">
+						<div class="form-group">
+							<label for="description" class="control-label">Description</label>
+							<textarea id="description" name="description" class="form-control"></textarea>
+						</div>
+		    			<input type="submit" value="Update Task" class="btn btn-primary">
+		    			<a href="{{ url('tasks') }}" class="float-right btn btn-primary">Cancel</a>
+		    		</form>
+				@else
+					<h2>New Task</h2>
+					<form action="{{ url('tasks') }}" method="post">
 		            {{ csrf_field() }}
 		            <div class="form-group">
 		                <label for="name" class="control-label">Name</label>
@@ -43,6 +58,7 @@
 		            </div>
 		            <input type="submit" value="Create Task" class="btn btn-primary">
 		        </form>
+		    	@endif
 		    </div>
 		</div>
 	</div>
