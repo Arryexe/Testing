@@ -9,8 +9,13 @@
 		        <ul class="list-group">
 		            @foreach ($tasks as $task)
 		                <li class="list-group-item">
+		                	<form action="{{ url('tasks/'.$task->id) }}" method="post" onsubmit="return confirm('Are You sure to delete this task?')">
+		                		{{ csrf_field() }}
+		                		{{ method_field('DELETE') }}
+		                		<input type="submit" value="X" id="delete_task_{{ $task->id }}" class="btn btn-secondary float-right">
+		                	</form>
 		                	<a href="{{ url('tasks') }}?action=edit&id={{ $task->id }}"
-		                		id="edit_task_{{ $task->id }}" class="float-right">Edit</a>
+		                		id="edit_task_{{ $task->id }}" class="btn btn-primary float-right" style="margin-right: 10px">Edit</a>
 		                    {{ $task->name }} <br>
 		                    {{ $task->description }}
 		                </li>

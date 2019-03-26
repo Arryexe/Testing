@@ -133,6 +133,21 @@ class ManageTasksTest extends TestCase
     /** @test */
     public function user_can_delete_an_existing_task()
     {
-        $this->assertTrue(true);
+        // Generate 1 record task pada table `tasks`.
+        $task = factory(Task::class)->create();
+
+        // User membuka halaman Daftar Task.
+        $this->visit('/tasks');
+
+        // User tekan tombol "Hapus Task"
+        $this->press('delete_task_'.$task->id);
+
+        // Lihat halaman web ter-redirect ke halaman daftar task
+        $this->seePageIs('/tasks');
+
+        // Record task hilang dari database
+        $this->dontSeeInDatabase('tasks', [
+            'id' => $task->id,
+        ]);
     }
 }
