@@ -8,17 +8,27 @@
 		        <h2>Tasks</h2>
 		        <ul class="list-group">
 		            @foreach ($tasks as $task)
-		                <li class="list-group-item">
-		                	<form action="{{ url('tasks/'.$task->id) }}" method="post" onsubmit="return confirm('Are You sure to delete this task?')">
-		                		{{ csrf_field() }}
-		                		{{ method_field('DELETE') }}
-		                		<input type="submit" value="X" id="delete_task_{{ $task->id }}" class="btn btn-secondary float-right">
-		                	</form>
-		                	<a href="{{ url('tasks') }}?action=edit&id={{ $task->id }}"
-		                		id="edit_task_{{ $task->id }}" class="btn btn-primary float-right" style="margin-right: 10px">Edit</a>
-		                    {{ $task->name }} <br>
-		                    {{ $task->description }}
-		                </li>
+		                <li class="list-group-item {{ $task->is_done ? 'task-done' : '' }}">
+						    <form action="{{ url('tasks/'.$task->id) }}" method="post" class="float-right" onsubmit="return confirm('Are U sure to delete this task?')">
+						        {{ csrf_field() }}
+						        {{ method_field('delete') }}
+						        <input type="submit" value="X" id="delete_task_{{ $task->id }}" class="btn btn-link btn-xs">
+						        <a
+						            href="{{ url('tasks') }}?action=edit&id={{ $task->id }}"
+						            id="edit_task_{{ $task->id }}">
+						            edit
+						        </a>
+						    </form>
+						    <form action="{{ url('tasks/'.$task->id.'/toggle') }}" method="post">
+						        {{ csrf_field() }}
+						        {{ method_field('patch') }}
+						        <input
+						            type="submit" value="{{ $task->name }}"
+						            id="toggle_task_{{ $task->id }}"
+						            class="btn btn-link no-padding">
+						    </form>
+						    {{ $task->description }}
+						</li>
 		            @endforeach
 		        </ul>
 		    </div>

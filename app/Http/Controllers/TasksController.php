@@ -45,4 +45,10 @@ class TasksController extends Controller
 
     	return redirect('tasks');
     }
+
+    public function toggle(Task $task) {
+    	$task->toggleStatus();
+
+    	return back();
+    }
 }
