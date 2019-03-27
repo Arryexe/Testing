@@ -42,7 +42,7 @@ class LoginTest extends TestCase
         // Kita memiliki 1 user terdaftar
         $user = factory(User::class)->create([
             'email' => 'username@example.net',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('secret12'),
         ]);
 
         // Login sebagai user tersebut
